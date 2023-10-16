@@ -1,7 +1,9 @@
 const http = require("http");
 const fs = require("fs");
+const dotenv=require("dotenv");
 var requests=require("requests");
 const homefile = fs.readFileSync("home.html","utf-8");
+dotenv.config({path:"./config.env"});
 
 const replace=(tempfile, originFile) => {
     let temprature=tempfile.replace("{%temp%}",originFile.main.temp);
@@ -17,7 +19,8 @@ const replace=(tempfile, originFile) => {
 const server=http.createServer((req,res)=>{
     if(req.url = "/")
     {
-                    requests('https://api.openweathermap.org/data/2.5/weather?q=Mumbai&appid={API_KEY}&units=metric')
+                    requests(
+                        `https://api.openweathermap.org/data/2.5/weather?q=Mumbai&appid=${process.env.KEY}&units=metric`)
             .on('data', (chunk) => {
                 console.log(chunk);
             const objData = JSON.parse(chunk);
